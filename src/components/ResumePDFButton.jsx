@@ -84,13 +84,6 @@ const ResumePDFButton = ({ ResumeData }) => {
   const [timeLeft, setTimeLeft] = useState(10)
   const [canDownload, setCanDownload] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
-
-  // Snapshot of ResumeData taken the moment the user clicks "Download".
-  // This is the actual bug fix: without freezing this, PDFDownloadLink's
-  // `document` prop keeps getting a brand-new object every time ResumeData
-  // changes anywhere (even from typing elsewhere while the modal is open),
-  // which restarts PDF generation endlessly and the blob never finishes —
-  // that's why clicking felt like it "failed" repeatedly.
   const [snapshot, setSnapshot] = useState(null)
 
   const MONETAG_DIRECT_LINK = "https://omg10.com/4/11344093"
@@ -107,7 +100,6 @@ const ResumePDFButton = ({ ResumeData }) => {
       window.open(MONETAG_DIRECT_LINK, '_blank')
     }
 
-    // freeze the data right now
     setSnapshot(ResumeData)
     setShowModal(true)
     setTimeLeft(10)
@@ -115,6 +107,7 @@ const ResumePDFButton = ({ ResumeData }) => {
     setIsDownloading(false)
   }
 
+  // 10-Second Timer Logic
   useEffect(() => {
     if (!showModal || canDownload) return
 
@@ -126,6 +119,26 @@ const ResumePDFButton = ({ ResumeData }) => {
     }
   }, [showModal, timeLeft, canDownload])
 
+  // 👇 NEW DYNAMIC AD INJECTION LOGIC (MODAL KHULTE HI CHALEGA) 👇
+  useEffect(() => {
+    if (showModal && !canDownload) {
+      const adContainer = document.getElementById('monetag-modal-ad-zone')
+      
+      // Check agar box khali hai tabhi script load karo (double loading rokne ke liye)
+      if (adContainer && adContainer.children.length === 0) {
+        const script = document.createElement('script')
+        
+        // ⚠️ Niche wale 2 lines me apna Monetag Banner ka asli URL aur Zone ID daalna:
+        script.src = "https://alwingulla.com/88/tag.min.js" // <-- YAHAN APNA MONETAG SCRIPT URL DAAL
+        script.setAttribute('data-zone', '123456')         // <-- YAHAN APNA ZONE NUMBER DAAL
+        
+        script.async = true
+        script.setAttribute('data-cfasync', 'false')
+        adContainer.appendChild(script)
+      }
+    }
+  }, [showModal, canDownload])
+
   const handleDownloadClick = () => {
     setIsDownloading(true)
     setTimeout(() => {
@@ -134,7 +147,6 @@ const ResumePDFButton = ({ ResumeData }) => {
     }, 2000)
   }
 
-  // Build the document element ONCE per snapshot, not on every re-render.
   const pdfDocument = useMemo(() => {
     if (!snapshot) return null
     return <ResumePDF ResumeData={snapshot} />
@@ -158,7 +170,7 @@ const ResumePDFButton = ({ ResumeData }) => {
               To keep our ATS Resume Builder 100% free with <b>no paywalls or watermarks</b>, we show a brief sponsor message during download.
             </p>
 
-           {!canDownload ? (
+            {!canDownload ? (
               <>
                 {/* 10 Second Timer Box */}
                 <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '12px' }}>
@@ -170,11 +182,11 @@ const ResumePDFButton = ({ ResumeData }) => {
                   </div>
                 </div>
 
-                {/* 👇 MONETAG BANNER AD YAHAN DIKHEGA 10 SECOND KE LIYE 👇 */}
+                {/* 👇 AD BOX (JS apne aap iske andar ad bhar dega) 👇 */}
                 <div 
                   id="monetag-modal-ad-zone" 
                   style={{ 
-                    minHeight: '60px', 
+                    minHeight: '80px', 
                     width: '100%', 
                     backgroundColor: '#FAFAFA', 
                     border: '1px dashed #CCC', 
@@ -183,11 +195,11 @@ const ResumePDFButton = ({ ResumeData }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '16px',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    position: 'relative'
                   }}
                 >
-                  <span style={{ fontSize: '10px', color: '#888' }}>Advertisement</span>
-                  {/* Monetag ka script ad apne aap is box me fit ho jayega */}
+                  {/* Script append hote hi ad yahan dikhega */}
                 </div>
               </>
             ) : pdfDocument ? (
