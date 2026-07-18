@@ -93,7 +93,7 @@ const ResumePDFButton = ({ ResumeData }) => {
   // that's why clicking felt like it "failed" repeatedly.
   const [snapshot, setSnapshot] = useState(null)
 
-  const MONETAG_DIRECT_LINK = "https://your-monetag-direct-link-here.com"
+  const MONETAG_DIRECT_LINK = "https://omg10.com/4/11344093"
 
   const handleInitialClick = (e) => {
     e.preventDefault()
@@ -103,7 +103,7 @@ const ResumePDFButton = ({ ResumeData }) => {
       return
     }
 
-    if (MONETAG_DIRECT_LINK !== "https://your-monetag-direct-link-here.com") {
+    if (MONETAG_DIRECT_LINK !== "https://omg10.com/4/11344093") {
       window.open(MONETAG_DIRECT_LINK, '_blank')
     }
 
@@ -158,15 +158,38 @@ const ResumePDFButton = ({ ResumeData }) => {
               To keep our ATS Resume Builder 100% free with <b>no paywalls or watermarks</b>, we show a brief sponsor message during download.
             </p>
 
-            {!canDownload ? (
-              <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '16px' }}>
-                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
-                  {String(timeLeft).padStart(2, '0')}s
+           {!canDownload ? (
+              <>
+                {/* 10 Second Timer Box */}
+                <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '12px' }}>
+                  <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
+                    {String(timeLeft).padStart(2, '0')}s
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
+                    Please wait while we format your clean A4 PDF
+                  </div>
                 </div>
-                <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
-                  Please wait while we format your clean A4 PDF
+
+                {/* 👇 MONETAG BANNER AD YAHAN DIKHEGA 10 SECOND KE LIYE 👇 */}
+                <div 
+                  id="monetag-modal-ad-zone" 
+                  style={{ 
+                    minHeight: '60px', 
+                    width: '100%', 
+                    backgroundColor: '#FAFAFA', 
+                    border: '1px dashed #CCC', 
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '16px',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <span style={{ fontSize: '10px', color: '#888' }}>Advertisement</span>
+                  {/* Monetag ka script ad apne aap is box me fit ho jayega */}
                 </div>
-              </div>
+              </>
             ) : pdfDocument ? (
               <div style={{ marginBottom: '12px' }}>
                 <PDFDownloadLink
