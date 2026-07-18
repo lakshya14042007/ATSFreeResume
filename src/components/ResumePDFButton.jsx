@@ -96,9 +96,8 @@ const ResumePDFButton = ({ ResumeData }) => {
       return
     }
 
-    if (MONETAG_DIRECT_LINK !== "https://omg10.com/4/11344093") {
-      window.open(MONETAG_DIRECT_LINK, '_blank')
-    }
+    window.open(MONETAG_DIRECT_LINK, '_blank')
+
 
     setSnapshot(ResumeData)
     setShowModal(true)
