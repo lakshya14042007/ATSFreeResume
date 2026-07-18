@@ -94,8 +94,6 @@ const ResumePDFButton = ({ ResumeData }) => {
       return
     }
 
-    // popup hata diya — ab sirf banner chalega modal ke andar
-
     setSnapshot(ResumeData)
     setShowModal(true)
     setTimeLeft(10)
@@ -115,14 +113,15 @@ const ResumePDFButton = ({ ResumeData }) => {
     }
   }, [showModal, timeLeft, canDownload])
 
-  // Banner ad injection — naya zone, container ke andar hi target kiya
+  // In-Page Push banner — appended into our own container instead of document.body,
+  // so it renders inside the box under the timer, not floating on the whole page.
   useEffect(() => {
     if (showModal && !canDownload) {
       const adContainer = document.getElementById('monetag-modal-ad-zone')
 
       if (adContainer && adContainer.children.length === 0) {
         const script = document.createElement('script')
-        script.dataset.zone = '11344216'
+        script.dataset.zone = '11344297'
         script.src = 'https://nap5k.com/tag.min.js'
         script.async = true
         adContainer.appendChild(script)
@@ -173,7 +172,7 @@ const ResumePDFButton = ({ ResumeData }) => {
                   </div>
                 </div>
 
-                {/* Banner ad renders here */}
+                {/* Banner ad renders here — timer ke neeche */}
                 <div
                   id="monetag-modal-ad-zone"
                   style={{
