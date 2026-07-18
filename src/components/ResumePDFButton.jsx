@@ -86,8 +86,6 @@ const ResumePDFButton = ({ ResumeData }) => {
   const [isDownloading, setIsDownloading] = useState(false)
   const [snapshot, setSnapshot] = useState(null)
 
-  const MONETAG_DIRECT_LINK = "https://omg10.com/4/11344093"
-
   const handleInitialClick = (e) => {
     e.preventDefault()
 
@@ -96,8 +94,7 @@ const ResumePDFButton = ({ ResumeData }) => {
       return
     }
 
-    window.open(MONETAG_DIRECT_LINK, '_blank')
-
+    // popup hata diya — ab sirf banner chalega modal ke andar
 
     setSnapshot(ResumeData)
     setShowModal(true)
@@ -118,21 +115,16 @@ const ResumePDFButton = ({ ResumeData }) => {
     }
   }, [showModal, timeLeft, canDownload])
 
-  // 👇 NEW DYNAMIC AD INJECTION LOGIC (MODAL KHULTE HI CHALEGA) 👇
+  // Banner ad injection — naya zone, container ke andar hi target kiya
   useEffect(() => {
     if (showModal && !canDownload) {
       const adContainer = document.getElementById('monetag-modal-ad-zone')
-      
-      // Check agar box khali hai tabhi script load karo (double loading rokne ke liye)
+
       if (adContainer && adContainer.children.length === 0) {
         const script = document.createElement('script')
-        
-        // ⚠️ Niche wale 2 lines me apna Monetag Banner ka asli URL aur Zone ID daalna:
-        script.src = "https://alwingulla.com/88/tag.min.js" // <-- YAHAN APNA MONETAG SCRIPT URL DAAL
-        script.setAttribute('data-zone', '123456')         // <-- YAHAN APNA ZONE NUMBER DAAL
-        
+        script.dataset.zone = '11344216'
+        script.src = 'https://nap5k.com/tag.min.js'
         script.async = true
-        script.setAttribute('data-cfasync', 'false')
         adContainer.appendChild(script)
       }
     }
@@ -181,14 +173,14 @@ const ResumePDFButton = ({ ResumeData }) => {
                   </div>
                 </div>
 
-                {/* 👇 AD BOX (JS apne aap iske andar ad bhar dega) 👇 */}
-                <div 
-                  id="monetag-modal-ad-zone" 
-                  style={{ 
-                    minHeight: '80px', 
-                    width: '100%', 
-                    backgroundColor: '#FAFAFA', 
-                    border: '1px dashed #CCC', 
+                {/* Banner ad renders here */}
+                <div
+                  id="monetag-modal-ad-zone"
+                  style={{
+                    minHeight: '80px',
+                    width: '100%',
+                    backgroundColor: '#FAFAFA',
+                    border: '1px dashed #CCC',
                     borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
