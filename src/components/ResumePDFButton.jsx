@@ -79,6 +79,10 @@ const buildFileName = (personalInfo) => {
   return `${name}_Resume.pdf`
 }
 
+// Direct Link — Monetag dashboard se "Direct Link" card ka "+ Get tag" dabao,
+// wahan se milega ek plain URL (jaise https://xyz.com/4/xxxxxxx), wahi yahan daalo
+const MONETAG_DIRECT_LINK = "https://omg10.com/4/11346320"
+
 const ResumePDFButton = ({ ResumeData }) => {
   const [showModal, setShowModal] = useState(false)
   const [timeLeft, setTimeLeft] = useState(10)
@@ -94,6 +98,9 @@ const ResumePDFButton = ({ ResumeData }) => {
       return
     }
 
+    // Ek hi popunder, ek hi user-gesture pe — clean aur predictable
+    window.open(MONETAG_DIRECT_LINK, '_blank')
+
     setSnapshot(ResumeData)
     setShowModal(true)
     setTimeLeft(10)
@@ -101,7 +108,6 @@ const ResumePDFButton = ({ ResumeData }) => {
     setIsDownloading(false)
   }
 
-  // 10-Second Timer Logic
   useEffect(() => {
     if (!showModal || canDownload) return
 
@@ -112,22 +118,6 @@ const ResumePDFButton = ({ ResumeData }) => {
       setCanDownload(true)
     }
   }, [showModal, timeLeft, canDownload])
-
-  // In-Page Push banner — appended into our own container instead of document.body,
-  // so it renders inside the box under the timer, not floating on the whole page.
-  useEffect(() => {
-    if (showModal && !canDownload) {
-      const adContainer = document.getElementById('monetag-modal-ad-zone')
-
-      if (adContainer && adContainer.children.length === 0) {
-        const script = document.createElement('script')
-        script.dataset.zone = '11344297'
-        script.src = 'https://nap5k.com/tag.min.js'
-        script.async = true
-        adContainer.appendChild(script)
-      }
-    }
-  }, [showModal, canDownload])
 
   const handleDownloadClick = () => {
     setIsDownloading(true)
@@ -161,37 +151,14 @@ const ResumePDFButton = ({ ResumeData }) => {
             </p>
 
             {!canDownload ? (
-              <>
-                {/* 10 Second Timer Box */}
-                <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '12px' }}>
-                  <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
-                    {String(timeLeft).padStart(2, '0')}s
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
-                    Please wait while we format your clean A4 PDF
-                  </div>
+              <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '16px' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
+                  {String(timeLeft).padStart(2, '0')}s
                 </div>
-
-                {/* Banner ad renders here — timer ke neeche */}
-                <div
-                  id="monetag-modal-ad-zone"
-                  style={{
-                    minHeight: '80px',
-                    width: '100%',
-                    backgroundColor: '#FAFAFA',
-                    border: '1px dashed #CCC',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '16px',
-                    overflow: 'hidden',
-                    position: 'relative'
-                  }}
-                >
-                  {/* Script append hote hi ad yahan dikhega */}
+                <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
+                  Please wait while we format your clean A4 PDF
                 </div>
-              </>
+              </div>
             ) : pdfDocument ? (
               <div style={{ marginBottom: '12px' }}>
                 <PDFDownloadLink
