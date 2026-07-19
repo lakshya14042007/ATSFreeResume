@@ -150,16 +150,17 @@ const ResumePDFButton = ({ ResumeData }) => {
               To keep our ATS Resume Builder 100% free with <b>no paywalls or watermarks</b>, we show a brief sponsor message during download.
             </p>
 
-            {!canDownload ? (
-              <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '16px' }}>
-                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
-                  {String(timeLeft).padStart(2, '0')}s
-                </div>
-                <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
-                  Please wait while we format your clean A4 PDF
-                </div>
-              </div>
-            ) : pdfDocument ? (
+      {!canDownload ? (
+        <div style={{ backgroundColor: '#F7F5EE', padding: '16px', borderRadius: '6px', border: '1px solid #DAD5C8', marginBottom: '16px' }}>
+          <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#C1440E', fontFamily: "'Courier New', monospace" }}>
+            {String(timeLeft).padStart(2, '0')}s
+          </div>
+          <div style={{ fontSize: '11px', color: '#6B6558', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>
+            Please wait while we format your clean A4 PDF
+          </div>
+        </div>
+      ) : pdfDocument ? (
+  // ...download button same rahega
               <div style={{ marginBottom: '12px' }}>
                 <PDFDownloadLink
                   document={pdfDocument}
