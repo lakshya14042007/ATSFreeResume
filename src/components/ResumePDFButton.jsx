@@ -99,7 +99,7 @@ const ResumePDFButton = ({ ResumeData }) => {
     }
 
     // Ek hi popunder, ek hi user-gesture pe — clean aur predictable
-    window.open(MONETAG_DIRECT_LINK, '_blank')
+   // window.open(MONETAG_DIRECT_LINK, '_blank')
 
     setSnapshot(ResumeData)
     setShowModal(true)
@@ -109,14 +109,15 @@ const ResumePDFButton = ({ ResumeData }) => {
   }
 
   useEffect(() => {
-    if (!showModal || canDownload) return
+   setCanDownload(true)
+   {/* if (!showModal || canDownload) return
 
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
       return () => clearTimeout(timer)
     } else {
       setCanDownload(true)
-    }
+    }*/}
   }, [showModal, timeLeft, canDownload])
 
   const handleDownloadClick = () => {
@@ -147,7 +148,7 @@ const ResumePDFButton = ({ ResumeData }) => {
             </h3>
 
             <p style={{ fontSize: '13.5px', color: '#4A4438', lineHeight: '1.5', marginBottom: '20px' }}>
-              To keep our ATS Resume Builder 100% free with <b>no paywalls or watermarks</b>, we show a brief sponsor message during download.
+              Download your pdf
             </p>
 
       {!canDownload ? (
